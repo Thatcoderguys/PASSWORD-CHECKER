@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="UTF-8">
+  <title>Password Checker</title>
+  <style>
+    body {
+      background-image: url('https://wallpapercave.com/wp/wp2734066.jpg'); 
+      background-size: cover; 
+      background-position: center; 
+      font-family: sans-serif;
+    }
+
+    .box {
+      background: rgba(255, 255, 255, 0.8); 
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 50px;
+    }
+
+    .error {
+      color: red;
+    }
+
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+
+<body>
+
+<center><div class="box">
+  <h2>Password Check</h2>
+  <h4>We will check your passwords to see if they are secure.</h4>
+
+  <input type="password" id="password" placeholder="Enter password">
+  <button onclick="checkPassword()">Check</button>
+  <div id="messages"></div>
+  <h5>None of your data will be taken or saved by us and will be gone instantly.</h5>
+</div></center>
+
+<script>
+const specials = "!£$%^&*()?><@#";
+const input = document.getElementById("password");
+
+input.addEventListener("keydown", function (e) {
+  if (e.key === "Enter") {
+    checkPassword();
+  }
+});
+
+
+function checkPassword() {
+  const password = document.getElementById("password").value;
+  const messages = document.getElementById("messages");
+  messages.innerHTML = "";
+
+  let goodPassword = true;
+
+  if (password.length < 8) {
+    messages.innerHTML += "<div class='error'>Minimum 8 characters</div>";
+    goodPassword = false;
+  }
+
+  if (![...password].some(char => specials.includes(char))) {
+    messages.innerHTML += "<div class='error'>Include a special character</div>";
+    goodPassword = false;
+  }
+
+  if (![...password].some(char => char === char.toUpperCase() && char !== char.toLowerCase())) {
+    messages.innerHTML += "<div class='error'>Include a capital letter</div>";
+    goodPassword = false;
+  }
+
+  if (![...password].some(char => /\d/.test(char))) {
+    messages.innerHTML += "<div class='error'>Include a number</div>";
+    goodPassword = false;
+  }
+
+  if (goodPassword) {
+    messages.innerHTML = "<div class='success'>That’s a secure password</div>";
+  }
+}
+</script>
+
+</body>
+</html>
